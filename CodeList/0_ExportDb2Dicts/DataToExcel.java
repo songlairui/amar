@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFHyperlink;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,7 +23,11 @@ import org.apache.poi.hssf.util.Region;
 import org.apache.poi.ss.usermodel.Hyperlink;
 
 public class DataToExcel {
-
+	// 文件变量
+	public static String fileVersion = "V1.3";
+	public static String dirPath = "D:"; //
+	public static String projName = "昆仑银行产业链金融系统"; //
+	
 	/*
 	 * 按照数据导出excel
 	 * 
@@ -41,10 +46,9 @@ public class DataToExcel {
 				list.add(tableName);
 				list.add(getStructOfTable(tableName));
 				System.out.println("正在生成表"+tableName+"的结构");
-				//showView(list);
 				listAll.add(list);
 			}
-			result = TableStructInfoToExcel(listAll,"D:");
+			result = TableStructInfoToExcel(listAll,dirPath);
 			System.out.println("已导入");
 		}catch(Exception e){
 			e.printStackTrace();
@@ -111,7 +115,7 @@ public class DataToExcel {
 		String[] tableField = {"序号","字段英文名","字段中文名","类型","长度","精度","是否主键","是否可空","备注"};
 		int[] tableFieldWidth = {123,150,75,64,64,64,64,64,64};
 		try{
-			FileName = path + "\\" + "开发库数据库字典.xls";//生成路径
+			FileName = path + "\\" + projName +"_数据字典"+fileVersion+".xls";//生成路径
 			fos = new FileOutputStream(FileName);
 			HSSFWorkbook wb = new HSSFWorkbook(); //poi 中创建工作簿
 			//HSSFSheet s = wb.createSheet();
@@ -141,6 +145,9 @@ public class DataToExcel {
 	        fontCol.setFontHeightInPoints((short)11);				// 字号 10.5
 	        fontCol.setFontName("Times New Roman");
 	        
+	        // 自定义颜色 靛蓝
+	        HSSFPalette customPalette = wb.getCustomPalette();
+	        customPalette.setColorAtIndex(HSSFColor.SKY_BLUE.index, (byte) 0, (byte) 176, (byte) 240); // 编号
 	        // 蓝色表头样式
 	        HSSFCellStyle BlueTitle = wb.createCellStyle();
 			BlueTitle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
@@ -149,7 +156,7 @@ public class DataToExcel {
 			BlueTitle.setBorderRight(HSSFCellStyle.BORDER_THIN);
 			BlueTitle.setFont(fontThead);
 			BlueTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平居中
-			BlueTitle.setFillForegroundColor((short) HSSFColor.ROYAL_BLUE.index);//设置背景色 - 淡蓝
+			BlueTitle.setFillForegroundColor((short) HSSFColor.SKY_BLUE.index);//设置背景色 - 淡蓝
 			BlueTitle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 			// 数据字典表头样式
 			style = wb.createCellStyle();
@@ -224,7 +231,7 @@ public class DataToExcel {
             s0.addMergedRegion(new Region(10, (short) 1, 10,(short) 8));  // 合并
             
             String[][] coverField = {
-            		{"文件版本：","V1.0","文件编号：",""},
+            		{"文件版本：",fileVersion,"文件编号：",""},
             		{"发布日期：","","编制：",""},
             		{"审    核：","","批准：",""}
             };

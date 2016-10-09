@@ -1,6 +1,6 @@
-# 
-> 描述在 amar 练级之路网站
-> [Lary 练级之路](http://amar.songlairui.cn)
+# 数据字典
+> [Main Class](https://github.com/songlairui/amar/blob/master/CodeList/0_ExportDb2Dicts/DataToExcel.java)
+> [Java导出xls数据字典](http://amar.songlairui.cn/als7shu-ju-zi-dian-dao-chu/)
 
 技能连击点：
  - POI 包
@@ -22,3 +22,10 @@
  - for 循环的使用
  - switch
  - 判空
+  - SQL的case when 可以完成这个逻辑
+  - Java = null 可以完成
+
+关联了其他操作：
+ - ghost blog 创建
+ - dnspod 别名配置
+ - qiniu cdn 配置
